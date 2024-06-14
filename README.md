@@ -1,11 +1,6 @@
-# fon2024
+# 2024 FON RAPORU
 2024 yılının ilk yarısında fon performanslarının incelenmesi
----
-title: "Fon_Raporu"
-author: "Volkan Yiğit Oker"
-date: "2024-06-14"
-output: html_document
----
+
 # Projenin amacı ve uygulanışı
 Proje fon sepetlerini dört farklı ölçekte ele alacaktır: 
  
