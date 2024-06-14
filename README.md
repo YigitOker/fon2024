@@ -1,6 +1,6 @@
 # 2024 FON RAPORU
 2024 yılının ilk yarısında fon performanslarının incelenmesi
-
+YATIRIM TAVSİYESİ İÇERMEMEKTEDİR
 # Projenin amacı ve uygulanışı
 Proje fon sepetlerini dört farklı ölçekte ele alacaktır: 
  
