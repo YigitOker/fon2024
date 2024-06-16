@@ -47,7 +47,7 @@ fonlar2 <- fonlar2 %>% mutate(sdsumsd = pnorm(sumsd, mean=mean(sumsd), sd=sd(sum
 
 Bütün ölçekler ele alındığında aşağıdaki fonların en başarılı fonlar olması ancak hiçbir ölçekte ilk 4'e girememeleri şaşırtıcı olabilir, bunun sebebi bu fonların istikrarlı bir şekilde her ölçekte getiri sağlamasıdır 
 
-![Final]([https://github.com/YigitOker/fon2024/blob/main/Toplam%20(1).png](https://github.com/YigitOker/fon2024/blob/main/%C4%B0YBB.png))
+![Final](https://github.com/YigitOker/fon2024/blob/main/%C4%B0YBB.png?raw=true)
 
 ## Kaynakça
 ![Cihat E. Çiçek](https://www.youtube.com/@cihatecicek) aracılığı ile ![iyigelir.net](https://www.iyigelir.net) tarafından sağlanan ![veriseti](https://docs.google.com/spreadsheets/d/12mGDgXraZlGZ4WG_m8nsawXUPcyFmMeO/edit?usp=sharing&ouid=104859365974990931595&rtpof=true&sd=true)
