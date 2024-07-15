@@ -5,9 +5,10 @@ YATIRIM TAVSİYESİ İÇERMEMEKTEDİR
 Proje fon sepetlerini dört farklı ölçekte ele alacaktır: 
  
  * Haftalık Getiri
- * 1 Aylık getiri
- * 3 Aylık getiri
- * 6 Aylık getiri
+ * 1 Aylık Getiri
+ * 3 Aylık Getiri
+ * 6 Aylık Getiri
+ * Yıl Başından Beri Getiri
  
  Bu ölçeklerde yapılan çalışmaların fon başına standart sapma değerleri hesaplanacak ve her dört ölçekte de ortalamanın üzerinde en yüksek getiriyi sağlayan şirketler analiz edilecektir.
  
@@ -15,14 +16,28 @@ Proje fon sepetlerini dört farklı ölçekte ele alacaktır:
 Öncelikle verinin temizlenip işlenmesi yani format hatalarının giderilmesi gerekmektedir:
 
 ```{r}
-fonlar2 <- read.csv("~/r/fonlar2.csv", header=FALSE)
+library(tidyverse)
+library(janitor)
+
+fonlar2 <- read.csv("~/r/1407/safveri.csv", header=FALSE)
 fonlar2 <- fonlar2 %>% row_to_names(row_number = 1)
+
+
+colnames(fonlar2)[colnames(fonlar2) == "1AY"] <- "AYLIK"
 colnames(fonlar2)[colnames(fonlar2) == "3AY"] <- "AYLIK3"
 colnames(fonlar2)[colnames(fonlar2) == "6AY"] <- "AYLIK6"
+colnames(fonlar2)[colnames(fonlar2) == "1YIL"] <- "YIL1"
+colnames(fonlar2)[colnames(fonlar2) == "3YIL"] <- "YIL3"
+colnames(fonlar2)[colnames(fonlar2) == "5YIL"] <- "YIL5"
+
 fonlar2 <- fonlar2 %>% mutate(HAFTALIK = as.numeric(HAFTALIK))
 fonlar2 <- fonlar2 %>% mutate(AYLIK = as.numeric(AYLIK))
 fonlar2 <- fonlar2 %>% mutate(AYLIK3 = as.numeric(AYLIK3))
 fonlar2 <- fonlar2 %>% mutate(AYLIK6 = as.numeric(AYLIK6))
+fonlar2 <- fonlar2 %>% mutate(YBB = as.numeric(YBB))
+fonlar2 <- fonlar2 %>% mutate(YIL1 = as.numeric(YIL1))
+fonlar2 <- fonlar2 %>% mutate(YIL3 = as.numeric(YIL3))
+fonlar2 <- fonlar2 %>% mutate(YIL5 = as.numeric(YIL5))
 ```
 
 Verinin temizlenmesi ve formatlandırılmasının ardından her bir fonun her bir ölçek için standart sapmasını hesaplamamız gerekiyor:
@@ -32,6 +47,7 @@ fonlar2 <- fonlar2 %>% mutate(weeklysd = pnorm(HAFTALIK, mean=mean(HAFTALIK), sd
 fonlar2 <- fonlar2 %>% mutate(ayliksd = pnorm(AYLIK, mean=mean(AYLIK), sd=sd(AYLIK)))
 fonlar2 <- fonlar2 %>% mutate(aylik3sd = pnorm(AYLIK3, mean=mean(AYLIK3), sd=sd(AYLIK3)))
 fonlar2 <- fonlar2 %>% mutate(aylik6sd = pnorm(AYLIK6, mean=mean(AYLIK6), sd=sd(AYLIK6)))
+fonlar2 <- fonlar2 %>% mutate(ybbsd = pnorm(YBB, mean=mean(YBB), sd=sd(YBB)))
 ```
 
 İşlem sonucunda ölçek başı ortalamalar hesaplanıp standart sapmalara göre bölündükten sonra her bir fonun her bir ölçek için kaçıncı sapma da yani % kaçlık dilimde olduğu hesaplanıp sırasıyla yeni sütunlara yerleştirildi.
@@ -39,15 +55,9 @@ fonlar2 <- fonlar2 %>% mutate(aylik6sd = pnorm(AYLIK6, mean=mean(AYLIK6), sd=sd(
 Her ölçekte ortalamanın üstünde getiri sağlayan fonları bulmak için tüm bu standart sapmaları her bir fon için toplayıp yeni değerler içerisindeki fonların yüzdelik olarak bulundukları noktalar incelenmeli:
 
 ```{r}
-fonlar2 <- fonlar2 %>% mutate(sumsd = rowSums(across(c(weeklysd, ayliksd, aylik3sd, aylik6sd))))
+fonlar2 <- fonlar2 %>% mutate(sumsd = rowSums(across(c(weeklysd, ayliksd, aylik3sd, aylik6sd, ybbsd))))
 fonlar2 <- fonlar2 %>% mutate(sdsumsd = pnorm(sumsd, mean=mean(sumsd), sd=sd(sumsd)))
 ```
-
-## İşlem sonucu
-
-Bütün ölçekler ele alındığında aşağıdaki fonların en başarılı fonlar olması ancak hiçbir ölçekte ilk 4'e girememeleri şaşırtıcı olabilir, bunun sebebi bu fonların istikrarlı bir şekilde her ölçekte getiri sağlamasıdır 
-
-![Final](https://github.com/YigitOker/fon2024/blob/main/%C4%B0YBB.png?raw=true)
 
 ## Kaynakça
 ![Cihat E. Çiçek](https://www.youtube.com/@cihatecicek) aracılığı ile ![iyigelir.net](https://www.iyigelir.net) tarafından sağlanan ![veriseti](https://docs.google.com/spreadsheets/d/12mGDgXraZlGZ4WG_m8nsawXUPcyFmMeO/edit?usp=sharing&ouid=104859365974990931595&rtpof=true&sd=true)
